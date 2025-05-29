@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>ARUN's EC2 Instance Webserver</title>
+    <style>
+        body {
+            background: linear-gradient(to right, #e0f7fa, #ffffff);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            padding: 60px;
+            color: #333;
+        }
+        
+        h1 {
+            color: #00796b;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        input {
+            padding: 10px;
+            margin: 8px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background-color: #00796b;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            font-size: 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        button:hover {
+            background-color: #004d40;
+        }
+
+        #output {
+            margin-top: 25px;
+            font-size: 17px;
+            color: #004d40;
+        }
+    </style>
+</head>
+<body>
+    <!-- Login Page -->
+    <div id="loginPage">
+        <h1>Login to EC2 Webserver</h1>
+        <input type="text" id="username" placeholder="Username"><br>
+        <input type="password" id="password" placeholder="Password"><br>
+        <button onclick="login()">Login</button>
+        <p id="loginError" style="color:red;"></p>
+    </div>
+
+    <!-- Home Page -->
+    <div id="homePage" class="hidden">
+        <h1>Welcome to ARUN's EC2 Instance Webserver</h1>
+        <p>This site is hosted on Amazon EC2 using Apache.</p>
+        <p>Built with HTML, CSS, and JavaScript.</p>
+        <button onclick="showMoreInfo()">Click to Reveal Info</button>
+        <div id="output"></div><br>
+        <button onclick="goToPage('aboutPage')">Go to About Page</button><br><br>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <!-- About Page -->
+    <div id="aboutPage" class="hidden">
+        <h1>About This Project</h1>
+        <p>This is a simulated login system built on HTML/CSS/JS and hosted on AWS EC2.</p>
+        <button onclick="goToPage('homePage')">Back to Home</button><br><br>
+        <button onclick="logout()">Logout</button>
+    </div>
+
+    <script>
+        const USERNAME = "admin";
+        const PASSWORD = "ec2user";
+
+        function login() {
+            const user = document.getElementById("username").value;
+            const pass = document.getElementById("password").value;
+            
+            if (user === USERNAME && pass === PASSWORD) {
+                document.getElementById("loginPage").classList.add("hidden");
+                document.getElementById("homePage").classList.remove("hidden");
+                document.getElementById("loginError").innerText = "";
+            } else {
+                document.getElementById("loginError").innerText = "Invalid credentials.";
+            }
+        }
+
+        function logout() {
+            document.getElementById("homePage").classList.add("hidden");
+            document.getElementById("aboutPage").classList.add("hidden");
+            document.getElementById("loginPage").classList.remove("hidden");
+            document.getElementById("username").value = "";
+            document.getElementById("password").value = "";
+        }
+
+        function showMoreInfo() {
+            document.getElementById("output").innerHTML = `
+                <p><strong>1.</strong> This web server runs on an Amazon Linux 2 EC2 instance.</p>
+                <p><strong>2.</strong> Apache is installed and serving this content.</p>
+                <p><strong>3.</strong> Everything is configured manually for learning purposes!</p>
+            `;
+        }
+
+        function goToPage(pageId) {
+            document.getElementById("homePage").classList.add("hidden");
+            document.getElementById("aboutPage").classList.add("hidden");
+            document.getElementById(pageId).classList.remove("hidden");
+        }
+    </script>
+</body>
+</html>
